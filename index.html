@@ -173,7 +173,6 @@
       margin-top: 6px;
     }
     .btn-submit:hover { background: #1e293b; transform: translateY(-1px); }
-    .auth-security-notice { font-size: 11.5px; color: #94a3b8; margin-top: 16px; line-height: 1.4; }
 
     /* ===== MAIN APP INTERFACE ===== */
     .wrapper { width: 100%; max-width: 890px; transition: max-width 0.3s ease; }
@@ -3631,16 +3630,17 @@ function toggleTheme() {
 
 // ===== STRICT USER AUTH GATE & HUB LOGIC =====
 function checkUserSession() {
-  const savedUser = localStorage.getItem('quiz_user_profile_v2');
-  if (savedUser) {
-    try {
+  try {
+    const savedUser = localStorage.getItem('quiz_user_profile_v2');
+    if (savedUser) {
       currentUser = JSON.parse(savedUser);
-      if (currentUser && currentUser.name && currentUser.age) {
+      if (currentUser && currentUser.name) {
+        if (!currentUser.age) currentUser.age = 20;
         return true;
       }
-    } catch (e) {
-      return false;
     }
+  } catch (e) {
+    console.warn("Session check error:", e);
   }
   return false;
 }
@@ -3906,16 +3906,7 @@ function handleGoogleCredentialResponse(response) {
   const gName = (payload.name || payload.given_name || payload.email.split('@')[0]).trim();
   const gEmail = payload.email.trim();
   const gAvatar = payload.picture || "https://lh3.googleusercontent.com/a/default-user=s96-c";
-  
-  let gAge = 20;
-  if (currentUser && currentUser.age) {
-    gAge = currentUser.age;
-  } else {
-    const askAge = prompt(`Xush kelibsiz, ${gName}!\nYoshingizni kiriting:`, "20");
-    if (askAge && !isNaN(parseInt(askAge, 10)) && parseInt(askAge, 10) >= 5 && parseInt(askAge, 10) <= 120) {
-      gAge = parseInt(askAge, 10);
-    }
-  }
+  const gAge = (currentUser && currentUser.age) ? currentUser.age : 20;
 
   currentUser = {
     name: gName,
