@@ -1697,7 +1697,6 @@
       </svg>
       <span>Google hisobi bilan tezkor kirish</span>
     </button>
-    <div class="auth-security-notice" style="margin-top:14px;">🔒 Ma'lumotlaringiz faqat test natijalarini shaxsiylashtirish uchun brauzeringizda saqlanadi.</div>
   </div>
 </div>
 
@@ -3931,7 +3930,7 @@ function handleGoogleCredentialResponse(response) {
   closeGoogleSetupModal();
   activateTestApp();
 
-  showToastNotification(`✅ Google hisobi muvaffaqiyatli ulandi: ${currentUser.name}`);
+  showToastNotification("Muvaffaqiyatli kirish");
 }
 
 function initGoogleIdentityServices() {
@@ -4056,7 +4055,7 @@ function handleDirectGoogleLogin(e) {
   saveUserProfile();
   closeGoogleSetupModal();
   activateTestApp();
-  showToastNotification(`✅ Google hisobi muvaffaqiyatli ulandi: ${currentUser.name}`);
+  showToastNotification("Muvaffaqiyatli kirish");
 }
 
 function showToastNotification(msg) {
@@ -4208,11 +4207,7 @@ function openProfileModal() {
 
   const metaEl = document.getElementById('modalUserMeta');
   if (metaEl) {
-    if (currentUser.provider === 'google') {
-      metaEl.innerHTML = `<span style="color:#22c55e; font-weight:600;">● Google hisobi</span> &nbsp;|&nbsp; <span>${currentUser.email || ''}</span> &nbsp;|&nbsp; <span>${currentUser.age} yosh</span>`;
-    } else {
-      metaEl.textContent = `${currentUser.age} yosh`;
-    }
+    metaEl.innerHTML = '';
   }
 
   // Avatar in modal
