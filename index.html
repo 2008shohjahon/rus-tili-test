@@ -1697,13 +1697,7 @@
       </svg>
       <span>Google hisobi bilan tezkor kirish</span>
     </button>
-
-    <div style="margin-top:6px; margin-bottom:12px; display:flex; justify-content:center;">
-      <button type="button" onclick="openGoogleSetupModal()" style="background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer; text-decoration:underline;">
-        ⚙️ Google OAuth sozlamalari (Client ID)
-      </button>
-    </div>
-    <div class="auth-security-notice">🔒 Ma'lumotlaringiz faqat test natijalarini shaxsiylashtirish uchun brauzeringizda saqlanadi.</div>
+    <div class="auth-security-notice" style="margin-top:14px;">🔒 Ma'lumotlaringiz faqat test natijalarini shaxsiylashtirish uchun brauzeringizda saqlanadi.</div>
   </div>
 </div>
 
@@ -2104,27 +2098,11 @@
     </div>
 
     <p style="font-size:13.5px; color:var(--muted); line-height:1.5; margin-bottom:16px;">
-      Sayt rasmiy Google Identity Services (GIS) tizimi bilan bog'langan. Haqiqiy Google hisobingiz bilan kirishingiz yoki domeningiz uchun Client ID ni sozlashingiz mumkin.
+      Google hisob ma'lumotlaringizni kiritib, tasdiqlangan foydalanuvchi sifatida tizimga kiring:
     </p>
 
-    <!-- Google Client ID sozlash -->
-    <div style="background:#f8fafc; border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:16px;" id="gClientIdBox">
-      <label class="form-label" for="googleClientIdInput" style="font-size:12.5px; font-weight:700;">Google OAuth Client ID (Netlify domen uchun):</label>
-      <input type="text" class="form-input" id="googleClientIdInput" placeholder="123456789-abc.apps.googleusercontent.com" style="font-size:12.5px; font-family:monospace; margin-bottom:8px;">
-      <div style="font-size:11.5px; color:var(--muted); line-height:1.45; margin-bottom:10px;">
-        💡 <b>Qo'llanma:</b> <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline;">Google Cloud Console</a> &gt; Credentials &gt; OAuth 2.0 Client ID yarating va «Authorized JavaScript origins»ga saytingiz domenini qo'shing.
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button type="button" class="btn" style="flex:1; padding:9px 12px; font-size:13px;" onclick="saveGoogleClientIdFromInput()">💾 Client ID saqlash</button>
-        <button type="button" class="btn btn-secondary" style="padding:9px 12px; font-size:13px;" onclick="testGoogleSignInWithCurrentId()">⚡ Sinash</button>
-      </div>
-    </div>
-
     <!-- Tezkor Google profilingizni kiritish -->
-    <div style="border-top:1px dashed var(--border); padding-top:14px;">
-      <div style="font-size:13.5px; font-weight:700; color:var(--text); margin-bottom:6px;">🚀 Google profili bilan to'g'ridan-to'g'ri ulanish</div>
-      <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">Google hisob ma'lumotlaringizni kiritib darhol Google tasdiqlangan foydalanuvchisi sifatida kiring:</p>
-      
+    <div>
       <form onsubmit="handleDirectGoogleLogin(event)">
         <div class="form-group" style="margin-bottom:10px;">
           <label class="form-label" for="directGName" style="font-size:12.5px;">Google Ismingiz:</label>
@@ -3885,8 +3863,8 @@ function handleManualProfileSubmit(e) {
 
 // ===== GOOGLE IDENTITY SERVICES (GIS) INTEGRATION =====
 const GOOGLE_CLIENT_ID_KEY = 'quiz_google_client_id_v2';
-// Standart Client ID (Google Cloud Console'da ro'yxatdan o'tkazilgan Client ID)
-const DEFAULT_GOOGLE_CLIENT_ID = '1035252873831-q7k6i389t8252278k8h1n95o5v0h6g31.apps.googleusercontent.com';
+// Standart Client ID (Google Cloud Console'da ro'yxatdan o'tkazilgan rasmiy Client ID)
+const DEFAULT_GOOGLE_CLIENT_ID = '527536359643-64ukr89tqmpa8nj0elgjjabuudi50eql.apps.googleusercontent.com';
 
 function getGoogleClientId() {
   try {
@@ -3971,6 +3949,7 @@ function initGoogleIdentityServices() {
     });
 
     const gWrapper = document.getElementById('googleSignInBtnWrapper');
+    const customBtn = document.getElementById('customGoogleSignInBtn');
     if (gWrapper) {
       gWrapper.innerHTML = '';
       google.accounts.id.renderButton(gWrapper, {
@@ -3982,6 +3961,7 @@ function initGoogleIdentityServices() {
         logo_alignment: 'left',
         width: 320
       });
+      if (customBtn) customBtn.style.display = 'none';
     }
   } catch (err) {
     console.warn("Google Identity Services sozlashda ogohlantirish:", err);

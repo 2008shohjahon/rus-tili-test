@@ -1,0 +1,11 @@
+﻿deploy.zip
+*.log
+.DS_Store
+Thumbs.db
+node_modules/
+dist/
+.env
+.env.local
+netlify-live-site.html
+sound-test.html
+test-clean.html
